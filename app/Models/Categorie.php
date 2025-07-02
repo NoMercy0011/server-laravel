@@ -14,4 +14,8 @@ class Categorie extends Model
     public function papiers(){
         return $this->hasMany(Papier::class, 'categorie', 'id_categorie');
     }
+
+    public function couvertures(){
+        return $this->hasMany(Couverture::class, 'couverture', 'id_categorie');
+    }
 }

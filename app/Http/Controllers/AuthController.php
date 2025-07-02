@@ -13,24 +13,6 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
 
-    public function getData(): JsonResponse {
-        $result = config([
-            'database.default' => 'dynamic_db',
-            $user = User::all(),
-        ]);
-
-        return $result;
-    }
-
-    public function getUser(): JsonResponse {
-
-        $users = User::all();
-
-        return response()->json([
-            'data' => $users,
-            'database' => DB::connection()->getDatabaseName()
-        ]);
-    }
     public function register(Request $request) {
 
         $validator = Validator::make($request->all(), [
@@ -82,29 +64,16 @@ class AuthController extends Controller
             return response()->json([
                 'token' => $user->createToken(time())->plainTextToken,
                 'status' => 201,
-                'message' => 'Connexion réussie'
+                'message' => 'Connexion réussie',
+                'user' => $user,
             ],201);
         }
     }
 
-    public function hello() : JsonResponse {
-        return response()->json([
-            'text' => "Hello Get API"
-        ]);
-    }
+
 
     public function user(Request $request): User {
+
         return $request->user();
-    }
-
-    public function secret(): JsonResponse {
-        return response()-> json([
-            'message' => "Page secret !!!"
-        ]);
-    }
-    public function userData(): JsonResponse {
-        return response()-> json([
-
-        ]);
     }
 }

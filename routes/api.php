@@ -21,49 +21,14 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 |
 */
 
-// Route::post('login', [AuthController::class, 'authenticate']);
+
 // Route::post('register', [AuthController::class, 'register']);
 
-// Route::get('hello', [AuthController::class, 'hello']);
-// Route::get('data', [AuthController::class, 'getData']);
-// Route::get('dashboard', [AuthController::class, 'dashboard'])
-//     ->middleware('auth:sanctum');
 
-// Route::middleware('auth:sanctum')->group(function (){
-//     Route::get('user', [AuthController::class, 'user']);
-//     Route::get('secret', [AuthController::class, 'secret']);
-//     Route::get('/test', [AuthController::class , 'getUser']);
-// });
-
-// Route::middleware([
-//     'api',
-//     InitializeTenancyByRequestData::class,
-//     //PreventAccessFromCentralDomains::class,
-// ])->group(function () {
-//     Route::get('/users', function () {
-//         return \App\Models\User::all();
-//     });
-// });
-
-
-Route::middleware([
-    'api',
-])->group(function () {
-    Route::post('/tenants', function (Request $request) {
-        $tenant = Tenant::create([
-            'nom' => $request->nom,
-            'slug'=> $request->slug,
-            'database'=> $request->database,
-        ]);
-
-        //$tenant->domains()->create([ 'domain' => $request->domain]);
-
-        return response()->json([
-            'message' => 'Success'
-            ], 201);
-    });
-
-    Route::get('/tenants', function () {
-        return Tenant::all();
+Route::middleware('tenant.auth' )->group(function (){
+    Route::get('user', function(Request $request){
+        return response()->json($request->user());
     });
 });
+
+Route::post('login', [AuthController::class, 'authenticate']);

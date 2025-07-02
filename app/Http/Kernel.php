@@ -40,12 +40,17 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \App\Http\Middleware\InitializeTenancyByHeader::class,
+            //\App\Http\Middleware\VerifyTenantToken::class,
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             //\App\Http\Middleware\EnsureTenantConnection::class,
         ],
+    ];
+
+    protected $routeMiddleware = [
+        'tenant.auth' => \App\Http\Middleware\VerifyTenantToken::class,
     ];
 
     /**
@@ -56,7 +61,6 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
-        //'tenant' => \App\Http\Middleware\VerifyDataBaseAccess::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,

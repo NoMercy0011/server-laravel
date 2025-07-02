@@ -14,4 +14,8 @@ class Accessoir extends Model
     public function papiers(){
         return $this->hasMany(Papier::class, 'accessoir', 'id_accessoir');
     }
+
+    public function couvertures(){
+        return $this->hasMany(Couverture::class, 'accessoire', 'id_accessoir');
+    }
 }

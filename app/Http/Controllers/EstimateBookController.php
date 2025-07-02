@@ -14,6 +14,36 @@ use Illuminate\Http\Request;
 
 class EstimateBookController extends Controller
 {
+    public function livre() {
+        $papiers = Categorie::with(['papiers.accessoir'])->get()->map(function($categorie){
+            return [
+                'categorie' => $categorie->categorie,
+                'accessoire' => $categorie->papiers->filter(fn($p) => $p->accessoir !== null)->values()
+            ];
+        });
+
+        $couverture = Couverture::with(['categorie', 'accessoir', 'printer'])->get()->map(function($item){
+            return [
+                'id' => $item->id_couverture,
+                'categorie' => $item->categorie?->categorie,
+                'accessoire' => $item->accessoir?->accessoir,
+                'prix' => $item->prix,
+                'printer' => $item->printer?->printer,
+            ];
+        });
+
+
+        return response()->json([
+            'status' => 200,
+            'livre' => [
+                'types' => Livre::all(),
+                'dimensions' => Dimension::all(),
+                'papiers' => $papiers,
+                'couleurs' => Couleur::all(),
+                'couvertures' => $couverture,
+            ],
+        ]);
+    }
     public function type() {
         return response()->json([
             'status' => 200,
@@ -40,7 +70,6 @@ class EstimateBookController extends Controller
         return response()->json([
             'status' => 200,
             'papiers' => $papiers,
-
         ]);
     }
 

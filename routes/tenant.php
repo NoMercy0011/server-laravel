@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EstimateBookController;
 use App\Http\Controllers\TenantController;
 use App\Http\Middleware\InitializeTenancyByHeader;
@@ -25,8 +26,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware([
     'api',
+    'tenant.auth',
     InitializeTenancyByHeader::class,
-    //'tenancy'
 ])->group(function () {
     Route::get('/users', function () {
         if(!tenancy()->initialized){
@@ -57,7 +58,8 @@ Route::middleware([
         ]);
     });
 
-    Route::get('livre-type' , [EstimateBookController::class, 'type']);
+
+    Route::get('livre' , [EstimateBookController::class, 'livre']);
     Route::get('livre-dimension' , [EstimateBookController::class, 'dimension']);
     Route::get('livre-papier' , [EstimateBookController::class, 'papier']);
     Route::get('livre-couleur' , [EstimateBookController::class, 'couleur']);

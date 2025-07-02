@@ -22,4 +22,10 @@ class Papier extends Model
     public function accessoir(){
         return $this->belongsTo(Accessoir::class, 'accessoir', 'id_accessoir');
     }
+    public function couleur(){
+        return $this->belongsTo(Couleur::class, 'couleur', 'id_couleur');
+    }
+    public function printer(){
+        return $this->belongsTo(Printer::class, 'printer', 'id_printer');
+    }
 }

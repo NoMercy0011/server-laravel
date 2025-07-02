@@ -32,7 +32,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
-            Route::middleware(['api', InitializeTenancyByHeader::class])
+            Route::middleware(['api',  InitializeTenancyByHeader::class, /*'auth:sanctum'*/])
                 ->prefix('api')
                 ->group(base_path('routes/tenant.php'));
         });
