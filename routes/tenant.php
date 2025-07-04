@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware([
     'api',
-    'tenant.auth',
+    //'tenant.auth',
     InitializeTenancyByHeader::class,
 ])->group(function () {
     Route::get('/users', function () {
@@ -60,9 +60,5 @@ Route::middleware([
 
 
     Route::get('livre' , [EstimateBookController::class, 'livre']);
-    Route::get('livre-dimension' , [EstimateBookController::class, 'dimension']);
-    Route::get('livre-papier' , [EstimateBookController::class, 'papier']);
-    Route::get('livre-couleur' , [EstimateBookController::class, 'couleur']);
-    Route::get('livre-couverture' , [EstimateBookController::class, 'couverture']);
-    Route::get('livre-reliure' , [EstimateBookController::class, 'reliure']);
+    Route::post( 'devis-livre', [EstimateBookController::class, 'devisLivre']);
 });

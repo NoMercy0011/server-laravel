@@ -9,8 +9,11 @@ class Couleur extends Model
 {
     use HasFactory;
     protected $connection = 'tenant';
+    protected $primaryKey = 'id_couleur';
 
     protected $table = 'couleurs';
 
-
+    public function devisLivres(){
+        return $this->hasMany(DevisLivre::class, 'couleur', 'id_couleur');
+    }
 }

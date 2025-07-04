@@ -47,18 +47,12 @@ class InitializeTenancyByHeader
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => $tenant->database,
-            'username' => env('DB_USERNAME'),
+            'username' => env($tenant->dot_env),
             'password' => env('DB_PASSWORD'),
         ]);
 
         DB::purge('tenant');
         DB::connection('tenant');
-        // try{
-        // }catch(\Exception $error) {
-        //     Log::error("Connexion à la base de donnée $tenantId a échouée", ['error' => $error]);
-        //     abort(500, "Echec de la connexion à la base $tenantId");
-
-        // }
         return $next($request);
     }
 }

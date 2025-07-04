@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reliure extends Model
+class RectoVerso extends Model
 {
     use HasFactory;
 
     protected $connection = 'tenant';
-    protected $primaryKey = 'id_reliure';
-    protected $table = 'reliures';
+    protected $primaryKey = 'id_recto';
+
+    protected $table = 'recto_verso';
 
     public function devisLivres(){
-        return $this->hasMany(DevisLivre::class, 'reliure', 'id_reliure');
+        return $this->hasMany(DevisLivre::class, 'recto_verso', 'id_recto');
     }
 }

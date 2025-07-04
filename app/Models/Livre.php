@@ -10,10 +10,15 @@ class Livre extends Model
     use HasFactory;
 
     protected $connection = 'tenant';
+    protected $primaryKey = 'id_livre';
 
     protected $fillable = [
         'livre',
         'img',
     ];
+
+    public function devisLivres(){
+        return $this->hasMany(DevisLivre::class, 'livre', 'id_livre');
+    }
 
 }

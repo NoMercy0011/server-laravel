@@ -9,15 +9,20 @@ class Couverture extends Model
 {
     use HasFactory;
     protected $connection = 'tenant';
+    protected $primaryKey = 'id_couverture';
+
     protected $table = 'couvertures';
 
     public  function categorie(){
         return $this->belongsTo(Categorie::class, 'couverture', 'id_categorie' );
     }
-    public function accessoir(){
-        return $this->belongsTo(Accessoir::class, 'accessoire', 'id_accessoir');
+    public function accessoire(){
+        return $this->belongsTo(Accessoire::class, 'accessoire_id', 'id_accessoire');
     }
-    public function printer(){
-        return $this->belongsTo(Printer::class, 'printer_id', 'id_printer');
+    public function imprimante(){
+        return $this->belongsTo(Imprimante::class, 'imprimante_id', 'id_imprimante');
+    }
+    public function devisLivres(){
+        return $this->hasMany(DevisLivre::class, 'couverture', 'id_couverture');
     }
 }

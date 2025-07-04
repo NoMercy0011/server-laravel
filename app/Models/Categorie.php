@@ -9,6 +9,8 @@ class Categorie extends Model
 {
     use HasFactory;
      protected $connection = 'tenant';
+    protected $primaryKey = 'id_categorie';
+
     protected $table = 'categories';
 
     public function papiers(){

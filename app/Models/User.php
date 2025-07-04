@@ -41,4 +41,7 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
+    public function devisLivres(){
+        return $this->hasMany(DevisLivre::class, 'personnel', 'id');
+    }
 }
