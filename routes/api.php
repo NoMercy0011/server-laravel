@@ -23,6 +23,7 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 
 // Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'authenticate']);
 
 
 Route::middleware('tenant.auth' )->group(function (){
@@ -31,4 +32,17 @@ Route::middleware('tenant.auth' )->group(function (){
     });
 });
 
-Route::post('login', [AuthController::class, 'authenticate']);
+
+Route::post('/test', function(Request $request) {
+    $tenant = Tenant::create([
+        'nom' => $request->nom,
+        'slug' => $request->slug,
+        'database' => $request->database,
+        'dot_env' => $request->dot_env,
+    ]);
+
+    return response()->json([
+        'message' => 'création réussie',
+        'Client' => $tenant,
+    ]);
+});

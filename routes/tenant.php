@@ -29,35 +29,6 @@ Route::middleware([
     //'tenant.auth',
     InitializeTenancyByHeader::class,
 ])->group(function () {
-    Route::get('/users', function () {
-        if(!tenancy()->initialized){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Auncun tenant actif',
-            ]);
-        }
-        return response()->json([
-            'status' => 'success',
-            'database' => tenant(key: 'database'),
-            'users' => User::all(),
-        ]);
-    });
-
-    Route::post('/users', function(Request $request){
-        $user = User::create([
-            'nom' => $request->nom,
-            'pseudo' => $request->pseudo,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-
-            ]);
-
-        return response()->json([
-            'message' => 'Création utilisateur réussi',
-            'user' => $user,
-        ]);
-    });
-
 
     Route::get('livre' , [EstimateBookController::class, 'livre']);
     Route::post( 'devis-livre', [EstimateBookController::class, 'devisLivre']);
