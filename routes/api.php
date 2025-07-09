@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MessageUpdatedController;
 use App\Http\Middleware\InitializeTenancyByHeader;
 use App\Http\Middleware\VerifyDataBaseAccess;
 use App\Models\Tenant;
@@ -22,7 +23,7 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 */
 
 
-// Route::post('register', [AuthController::class, 'register']);
+Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'authenticate']);
 
 
@@ -32,17 +33,4 @@ Route::middleware('tenant.auth' )->group(function (){
     });
 });
 
-
-Route::post('/test', function(Request $request) {
-    $tenant = Tenant::create([
-        'nom' => $request->nom,
-        'slug' => $request->slug,
-        'database' => $request->database,
-        'dot_env' => $request->dot_env,
-    ]);
-
-    return response()->json([
-        'message' => 'création réussie',
-        'Client' => $tenant,
-    ]);
-});
+Route::post('/send-message', [MessageUpdatedController::class, 'send']);

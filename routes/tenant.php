@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware([
     'api',
-    //'tenant.auth',
+    'tenant.auth',
     InitializeTenancyByHeader::class,
 ])->group(function () {
 
