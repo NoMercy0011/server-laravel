@@ -11,6 +11,7 @@
         "laravel/reverb": "^1.4",
         "laravel/sanctum": "*",
         "laravel/tinker": "^2.8",
+        "pusher/pusher-php-server": "^7.2",
         "sebastian/object-reflector": "*",
         "stancl/tenancy": "^3.9"
     },

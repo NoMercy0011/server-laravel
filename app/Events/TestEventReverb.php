@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TestEventReverb implements ShouldBroadcast
+class TestEventReverb
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -21,17 +21,5 @@ class TestEventReverb implements ShouldBroadcast
         $this->message = $message;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
-    public function broadcastOn(): Channel
-    {
-        return new Channel('Cannal-Test');
-    }
-
-    public function broadcastAs(){
-        return  'TestEventReverb';
-    }
+    
 }
