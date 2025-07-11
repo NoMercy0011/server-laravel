@@ -22,11 +22,11 @@ class TestActionToSocket
      */
     public function handle(TestEventReverb $event): void
     {
-        Http::post('https://ansd-web-socket-io.onrender.com/send-message', [
+        $url = rtrim( env('SOCKET_IO_URI'), '/').'/send-message';
+
+        Http::post(env('SOCKET_IO_URI'), [
             "message" => $event->message,
+            "url" => $url
         ]);
-        // Http::post('http://localhost:5000/send-message', [
-        //     "message" => $event->message,
-        // ]);
     }
 }

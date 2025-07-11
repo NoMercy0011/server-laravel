@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DevisLivreCreate;
 use App\Models\Accessoir;
 use App\Models\Categorie;
 use App\Models\Couleur;
@@ -86,10 +87,12 @@ class EstimateBookController extends Controller
                 'reliure'=> $request->reliure,
                 'finition'=> $request->finition,
                 'quantite'=> $request->quantite,
-                'montant'=> '$montant',
+                'montant'=> $request->montant,
                 'personnel'=> $personnel->id,
 
             ]);
+
+            event(new DevisLivreCreate($estimate, $personnel));
             return response()->json([
                 'status' => 201,
                 'message' => 'devis ajoutée avec succèss',

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\DevisLivreCreate;
 use App\Events\TestEventReverb;
+use App\Listeners\SendDevisLivreNotification;
 use App\Listeners\TestActionToSocket;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         TestEventReverb::class => [
             TestActionToSocket::class,
+        ],
+        DevisLivreCreate::class => [
+            SendDevisLivreNotification::class,
         ],
     ];
 
