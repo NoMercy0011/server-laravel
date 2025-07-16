@@ -31,31 +31,35 @@ class DevisLivre extends Model
     ];
 
     public  function livre(){
-        return $this->belongsTo(Livre::class, 'livre', 'id_livre' );
+        return $this->belongsTo(Livre::class, 'livre_id', 'id_livre' );
     }
     public  function dimension(){
-        return $this->belongsTo(Dimension::class, 'dimension', 'id_dimension' );
+        return $this->belongsTo(Dimension::class, 'dimension_id', 'id_dimension' );
     }
     public  function papier(){
-        return $this->belongsTo(Papier::class, 'papier', 'id_papier' );
+        return $this->belongsTo(Papier::class, 'papier_id', 'id_papier' );
     }
     public function couleur(){
-        return $this->belongsTo(Couleur::class, 'couleur', 'id_couleur');
+        return $this->belongsTo(Couleur::class, 'couleur_id', 'id_couleur');
     }
     public function recto_verso(){
-        return $this->belongsTo(RectoVerso::class, 'recto_verso', 'id_recto');
+        return $this->belongsTo(RectoVerso::class, 'recto_verso_id', 'id_recto');
     }
 
     public function couverture(){
-        return $this->belongsTo(Couverture::class, 'couverture', 'id_couverture');
+        return $this->belongsTo(Couverture::class, 'couverture_id', 'id_couverture');
     }
 
     public function reliure(){
-        return $this->belongsTo(Reliure::class, 'reliure', 'id_reliure');
+        return $this->belongsTo(Reliure::class, 'reliure_id', 'id_reliure');
     }
 
     public function finition(){
-        return $this->belongsTo(Finition::class, 'finition', 'id_finition');
+        return $this->belongsTo(Finition::class, 'finition_id', 'id_finition');
+    }
+
+    public function personnel(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function calculMontant() {

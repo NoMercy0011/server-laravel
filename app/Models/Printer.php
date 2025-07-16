@@ -12,7 +12,7 @@ class Printer extends Model
     protected $table = 'printers';
 
     public function papiers(){
-        return $this->hasMany(Papier::class, 'printer', 'id_printer');
+        return $this->hasMany(Papier::class, 'printer_id', 'id_printer');
     }
 
     public function couvertures(){

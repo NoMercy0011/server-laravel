@@ -12,9 +12,9 @@ class RectoVerso extends Model
     protected $connection = 'tenant';
     protected $primaryKey = 'id_recto';
 
-    protected $table = 'recto_verso';
+    protected $table = 'recto-verso';
 
     public function devisLivres(){
-        return $this->hasMany(DevisLivre::class, 'recto_verso', 'id_recto');
+        return $this->hasMany(DevisLivre::class, 'recto_verso_id', 'id_recto');
     }
 }

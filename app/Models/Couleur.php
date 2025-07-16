@@ -14,6 +14,6 @@ class Couleur extends Model
     protected $table = 'couleurs';
 
     public function devisLivres(){
-        return $this->hasMany(DevisLivre::class, 'couleur', 'id_couleur');
+        return $this->hasMany(DevisLivre::class, 'couleur_id', 'id_couleur');
     }
 }

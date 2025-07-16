@@ -14,6 +14,10 @@ class Reliure extends Model
     protected $table = 'reliures';
 
     public function devisLivres(){
-        return $this->hasMany(DevisLivre::class, 'reliure', 'id_reliure');
+        return $this->hasMany(DevisLivre::class, 'reliure_id', 'id_reliure');
+    }
+
+        public  function reference(){
+        return $this->belongsTo(Reference::class, 'reference_id', 'id_reference' );
     }
 }

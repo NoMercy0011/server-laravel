@@ -18,6 +18,6 @@ class Dimension extends Model
     ];
 
     public function devisLivres(){
-        return $this->hasMany(DevisLivre::class, 'dimension', 'id_dimension');
+        return $this->hasMany(DevisLivre::class, 'dimension_id', 'id_dimension');
     }
 }

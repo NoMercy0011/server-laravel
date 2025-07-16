@@ -13,6 +13,6 @@ class Finition extends Model
 
     protected $table = 'finitions';
     public function devisLivres(){
-        return $this->hasMany(DevisLivre::class, 'finition', 'id_finition');
+        return $this->hasMany(DevisLivre::class, 'finition_id', 'id_finition');
     }
 }

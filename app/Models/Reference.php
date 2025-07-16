@@ -5,20 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Livre extends Model
+class Reference extends Model
 {
     use HasFactory;
-
     protected $connection = 'tenant';
-    protected $primaryKey = 'id_livre';
+    protected $table = 'reference';
 
     protected $fillable = [
-        'livre',
-        'img',
+        'reliure',
+        'reference',
     ];
 
-    public function devisLivres(){
-        return $this->hasMany(DevisLivre::class, 'livre_id', 'id_livre');
+    public function reliures(){
+        return $this->hasMany(Reliure::class, 'reference_id', 'id_reference');
     }
-
 }

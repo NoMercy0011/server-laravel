@@ -15,7 +15,7 @@ class Imprimante extends Model
     protected $table = 'imprimantes';
 
     public function papiers(){
-        return $this->hasMany(Papier::class, 'imprimante', 'id_imprimante');
+        return $this->hasMany(Papier::class, 'imprimante_id', 'id_imprimante');
     }
 
     public function couvertures(){

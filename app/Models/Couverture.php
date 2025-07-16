@@ -14,7 +14,7 @@ class Couverture extends Model
     protected $table = 'couvertures';
 
     public  function categorie(){
-        return $this->belongsTo(Categorie::class, 'couverture', 'id_categorie' );
+        return $this->belongsTo(Categorie::class, 'categorie_id', 'id_categorie' );
     }
     public function accessoire(){
         return $this->belongsTo(Accessoire::class, 'accessoire_id', 'id_accessoire');
@@ -23,6 +23,6 @@ class Couverture extends Model
         return $this->belongsTo(Imprimante::class, 'imprimante_id', 'id_imprimante');
     }
     public function devisLivres(){
-        return $this->hasMany(DevisLivre::class, 'couverture', 'id_couverture');
+        return $this->hasMany(DevisLivre::class, 'couverture_id', 'id_couverture');
     }
 }

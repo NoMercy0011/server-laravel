@@ -99,4 +99,56 @@ class EstimateBookController extends Controller
             ]);
         }
     }
+
+    public function getDevisLivre(){
+        $devis = DevisLivre::with([
+            'livre', 
+            'dimension', 
+            'papier.categorie', 
+            'papier.accessoire', 
+            'couleur',
+            'recto_verso',
+            'couverture.categorie', 
+            'couverture.accessoire', 
+            'reliure.reference', 
+            'finition', 
+            'personnel',
+        ])->get();
+
+
+        $data = $devis->map(function ($item){
+            return[
+            'id_devis' => $item->id_devis,
+            'livre' => $item->livre->livre, 
+            'dimension' =>[
+                'dimension' =>$item->dimension->dimension ?? null,
+                'unitée' =>$item->dimension->unitée ?? null,
+            ] ?? null , 
+            'papier' => [
+                'categorie' => $item->papier->categorie->categorie ?? null,
+                'accessoire' => $item->papier->accessoire->accessoire ?? null,
+            ] ?? null, 
+            'couleur' => $item->couleur->couleur,
+            'recto_verso' => $item->recto_verso->type,
+            'couverture' => [
+                'categorie' => $item->couverture->categorie->categorie ?? null,
+                'accessoire' => $item->couverture->accessoire->accessoire ?? null,
+            ], 
+            'reliure' => [
+                'reliure' => $item->reliure->reference->reliure ?? null,
+                'reference' => $item->reliure->reference->reference ?? null,
+            ], 
+            'finition' => $item->finition->finition ?? null, 
+            'personnel' => [
+                'nom' => $item->personnel->nom,
+                'pseudo' => $item->personnel->pseudo,
+            ], 
+            ];
+        });
+        
+        return response()->json([
+            'status' => 200,
+            'devis' => $data,
+        ]);
+    }
 }

@@ -14,10 +14,10 @@ class Categorie extends Model
     protected $table = 'categories';
 
     public function papiers(){
-        return $this->hasMany(Papier::class, 'categorie', 'id_categorie');
+        return $this->hasMany(Papier::class, 'categorie_id', 'id_categorie');
     }
 
     public function couvertures(){
-        return $this->hasMany(Couverture::class, 'couverture', 'id_categorie');
+        return $this->hasMany(Couverture::class, 'categorie_id', 'id_categorie');
     }
 }

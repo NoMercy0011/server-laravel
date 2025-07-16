@@ -14,7 +14,7 @@ class Accessoire extends Model
     protected $table = 'accessoires';
 
     public function papiers(){
-        return $this->hasMany(Papier::class, 'accessoire', 'id_accessoire');
+        return $this->hasMany(Papier::class, 'accessoire_id', 'id_accessoire');
     }
 
     public function couvertures(){

@@ -19,19 +19,19 @@ class Papier extends Model
     ];
 
     public  function categorie(){
-        return $this->belongsTo(Categorie::class, 'categorie', 'id_categorie' );
+        return $this->belongsTo(Categorie::class, 'categorie_id', 'id_categorie' );
     }
     public function accessoire(){
-        return $this->belongsTo(Accessoire::class, 'accessoire', 'id_accessoire');
+        return $this->belongsTo(Accessoire::class, 'accessoire_id', 'id_accessoire');
     }
     public function couleur(){
-        return $this->belongsTo(Couleur::class, 'couleur', 'id_couleur');
+        return $this->belongsTo(Couleur::class, 'couleur_id', 'id_couleur');
     }
     public function imprimante(){
-        return $this->belongsTo(Imprimante::class, 'imprimante', 'id_imprimante');
+        return $this->belongsTo(Imprimante::class, 'imprimante_id', 'id_imprimante');
     }
 
     public function devisLivres(){
-        return $this->hasMany(DevisLivre::class, 'papier', 'id_papier');
+        return $this->hasMany(DevisLivre::class, 'papier_id', 'id_papier');
     }
 }
