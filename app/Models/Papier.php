@@ -34,4 +34,7 @@ class Papier extends Model
     public function devisLivres(){
         return $this->hasMany(DevisLivre::class, 'papier_id', 'id_papier');
     }
+    public function reliures(){
+        return $this->hasMany(Reliure::class, 'papier_id', 'id_accessoire');
+    }
 }

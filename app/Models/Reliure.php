@@ -17,7 +17,10 @@ class Reliure extends Model
         return $this->hasMany(DevisLivre::class, 'reliure_id', 'id_reliure');
     }
 
-        public  function reference(){
+    public  function reference(){
         return $this->belongsTo(Reference::class, 'reference_id', 'id_reference' );
+    }
+    public  function papier(){
+        return $this->belongsTo(Accessoire::class, 'papier_id', 'id_accessoire' );
     }
 }

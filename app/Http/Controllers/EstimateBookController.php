@@ -9,8 +9,10 @@ use App\Models\Couleur;
 use App\Models\Couverture;
 use App\Models\DevisLivre;
 use App\Models\Dimension;
+use App\Models\Finition;
 use App\Models\Livre;
 use App\Models\Papier;
+use App\Models\RectoVerso;
 use App\Models\Reliure;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,32 +21,119 @@ use Illuminate\Support\Facades\Validator;
 class EstimateBookController extends Controller
 {
     public function livre() {
-        $papiers = Categorie::with(['papiers.accessoire'])->get()->map(function($categorie){
+        $livre = Livre::all()->map(function($item){
             return [
-                'categorie' => $categorie->categorie,
-                'accessoire' => $categorie->papiers->filter(fn($p) => $p->accessoire !== null)->values(),
+                'id_livre' => $item->id_livre,
+                'livre' => $item->livre,
+                'img' => $item->img,
+            ];
+        });
+
+        $dimenssion = Dimension::all()->map(function($item){
+            return [
+                'id_dimension' => $item->id_dimension,
+                'dimension' => $item->dimension,
+                'unitée' => $item->unitée,
+            ];
+        });
+
+        $papiers = Papier::with([
+                'categorie',
+                'accessoire',
+                'couleur',
+                'imprimante',
+            ])->get()
+            ->map(function ($item){
+                return [
+                    'id_papier' => $item->id_papier,
+                    'categorie' => [
+                        'id_categorie' => $item->categorie->id_categorie,
+                        'categorie' => $item->categorie->categorie,
+                    ],
+                    'accessoire' => [
+                        'id_accessoire' => $item->accessoire->id_accessoire,
+                        'accessoire' => $item->accessoire->accessoire,
+                    ],
+                    'couleur' => [
+                        'id_couleur' => $item->couleur->id_couleur,
+                        'couleur' => $item->couleur->couleur,
+                    ],
+                    'imprimante' => [
+                        'id_imprimante' => $item->imprimante->id_imprimante,
+                        'imprimante' => $item->imprimante->imprimante,
+                    ],
+                    'prix' => $item->prix,
+                ];
+            });
+
+            $couleurs = Couleur::all()->map(function ($item){
+                return [
+                    'id_couleur' => $item->id_couleur,
+                    'couleur' => $item->couleur
+                ];  
+            });
+
+        $recto = RectoVerso::all()->map(function ($item){
+            return [
+                'id_recto' => $item->id_recto,
+                'type' => $item->type,
             ];
         });
 
         $couverture = Couverture::with(['categorie', 'accessoire', 'imprimante'])->get()->map(function($item){
             return [
-                'id' => $item->id_couverture,
-                'categorie' => $item->categorie?->categorie,
-                'accessoire' => $item->accessoire?->accessoire,
+                'id_couverture' => $item->id_couverture,
+                'categorie' => [
+                    'id_categorie' => $item->categorie?->id_categorie,
+                    'categorie' => $item->categorie?->categorie,
+                ],
+                'accessoire' => [
+                    'id_accessoire' => $item->accessoire?->id_accessoire,
+                    'accessoire' => $item->accessoire?->accessoire,
+                ],
+                'imprimante' => [
+                    'id_imprimante' => $item->imprimante?->id_imprimante,
+                    'imprimante' => $item->imprimante?->imprimante,
+                ],
                 'prix' => $item->prix,
-                'imprimante' => $item->imprimante?->imprimante,
             ];
         });
 
+        $reliure = Reliure::with([
+            'reference',
+            'papier',
+        ])->get()
+        ->map(function ($item){
+            return [
+                'id_reliure' => $item->id_reliure,
+                'reference' =>  $item->reference->reliure .' ' .$item->reference->reference,
+                'min' => $item->min,
+                'max' => $item->max,
+                'papier' => $item->papier->accessoire,
+                'prix' => $item->prix,
+
+            ];
+        });
+
+        $finition = Finition::all()->map(function ($item){
+            return [
+                'id_finition' => $item->id_finition,
+                'finition' => $item->finition,
+                'prix' => $item->prix,
+            ];
+        });
 
         return response()->json([
             'status' => 200,
             'livre' => [
-                'types' => Livre::all(),
-                'dimensions' => Dimension::all(),
+                'livres' => $livre,
+                'dimensions' => $dimenssion,
                 'papiers' => $papiers,
-                'couleurs' => Couleur::all(),
+                'couleurs' => $couleurs,
+                'recto-verso' => $recto,
                 'couvertures' => $couverture,
+                'reliure' => $reliure,
+                'finition' => $finition,
             ],
         ]);
     }
