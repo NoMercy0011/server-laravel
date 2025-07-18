@@ -14,6 +14,7 @@ use App\Models\Livre;
 use App\Models\Papier;
 use App\Models\RectoVerso;
 use App\Models\Reliure;
+use App\Models\StockPapier;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -38,8 +39,8 @@ class EstimateBookController extends Controller
         });
 
         $papiers = Papier::with([
-                'categorie',
-                'accessoire',
+                'stockPapier.categorie',
+                'stockPapier.accessoire',
                 'couleur',
                 'imprimante',
             ])->get()
@@ -47,12 +48,12 @@ class EstimateBookController extends Controller
                 return [
                     'id_papier' => $item->id_papier,
                     'categorie' => [
-                        'id_categorie' => $item->categorie->id_categorie,
-                        'categorie' => $item->categorie->categorie,
+                        'id_categorie' => $item->stockPapier->categorie->id_categorie,
+                        'categorie' => $item->stockPapier->categorie->categorie,
                     ],
                     'accessoire' => [
-                        'id_accessoire' => $item->accessoire->id_accessoire,
-                        'accessoire' => $item->accessoire->accessoire,
+                        'id_accessoire' => $item->stockPapier->accessoire->id_accessoire,
+                        'accessoire' => $item->stockPapier->accessoire->accessoire,
                     ],
                     'couleur' => [
                         'id_couleur' => $item->couleur->id_couleur,
@@ -100,13 +101,13 @@ class EstimateBookController extends Controller
         });
 
         $reliure = Reliure::with([
-            'reference',
+            'stockReliure',
             'papier',
         ])->get()
         ->map(function ($item){
             return [
                 'id_reliure' => $item->id_reliure,
-                'reference' =>  $item->reference->reliure .' ' .$item->reference->reference,
+                'reference' =>  $item /*.' ' .$item*/,
                 'min' => $item->min,
                 'max' => $item->max,
                 'papier' => $item->papier->accessoire,
@@ -193,13 +194,12 @@ class EstimateBookController extends Controller
         $devis = DevisLivre::with([
             'livre', 
             'dimension', 
-            'papier.categorie', 
-            'papier.accessoire', 
+            'papier.stockPapier.categorie', 
+            'papier.stockPapier.accessoire', 
             'couleur',
             'recto_verso',
-            'couverture.categorie', 
-            'couverture.accessoire', 
-            'reliure.reference', 
+            'couverture.stockPapier',
+            'reliure.stockReliure', 
             'finition', 
             'personnel',
         ])->get();
@@ -208,21 +208,18 @@ class EstimateBookController extends Controller
         $data = $devis->map(function ($item){
             return[
             'id_devis' => $item->id_devis,
-            'livre' => $item->livre->livre, 
+            'livre' => [
+                'type' => $item->livre->livre ?? null, 
+                'img' => $item->livre->img ?? null,
+            ] ?? null , 
             'dimension' =>[
                 'dimension' =>$item->dimension->dimension ?? null,
                 'unitée' =>$item->dimension->unitée ?? null,
             ] ?? null , 
-            'papier' => [
-                'categorie' => $item->papier->categorie->categorie ?? null,
-                'accessoire' => $item->papier->accessoire->accessoire ?? null,
-            ] ?? null, 
+            'papier' => $item->papier->stockPapier?->categorie?->categorie. ' - ' . $item->papier->stockPapier?->accessoire?->accessoire,
             'couleur' => $item->couleur->couleur,
             'recto_verso' => $item->recto_verso->type,
-            'couverture' => [
-                'categorie' => $item->couverture->categorie->categorie ?? null,
-                'accessoire' => $item->couverture->accessoire->accessoire ?? null,
-            ], 
+            'couverture' => $item->couverture->stockPapier?->categorie?->categorie. ' - ' . $item->couverture->stockPapier?->accessoire?->accessoire,
             'reliure' => [
                 'reliure' => $item->reliure->reference->reliure ?? null,
                 'reference' => $item->reliure->reference->reference ?? null,

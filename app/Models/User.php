@@ -44,4 +44,12 @@ class User extends Authenticatable
     public function devisLivres(){
         return $this->hasMany(DevisLivre::class, 'user_id', 'id');
     }
+
+    public function mouvementsPapiers(){
+        return $this->hasMany(MouvementPapier::class, 'user_id', 'id');
+    }
+
+    public function mouvementsReliures(){
+        return $this->hasMany(MouvementReliure::class, 'user_id', 'id');
+    }
 }

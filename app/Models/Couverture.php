@@ -13,11 +13,8 @@ class Couverture extends Model
 
     protected $table = 'couvertures';
 
-    public  function categorie(){
-        return $this->belongsTo(Categorie::class, 'categorie_id', 'id_categorie' );
-    }
-    public function accessoire(){
-        return $this->belongsTo(Accessoire::class, 'accessoire_id', 'id_accessoire');
+    public  function stockPapier(){
+        return $this->belongsTo(StockPapier::class, 'stock_papier_id', 'id_stock_papier' );
     }
     public function imprimante(){
         return $this->belongsTo(Imprimante::class, 'imprimante_id', 'id_imprimante');

@@ -15,18 +15,18 @@ class DevisLivre extends Model
     protected $table = 'devis_livre';
 
     protected $fillable = [
-        'livre',
-        'dimension',
-        'papier',
-        'couleur',
-        'recto_verso',
+        'livre_id',
+        'dimension_id',
+        'papier_id',
+        'couleur_id',
+        'recto_verso_id',
         'pages',
-        'couverture',
-        'reliure',
-        'finition',
+        'couverture_id',
+        'reliure_id',
+        'finition_id',
         'quantite',
         'montant',
-        'personnel',
+        'user_id',
         'status',
     ];
 
@@ -60,6 +60,14 @@ class DevisLivre extends Model
 
     public function personnel(){
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function mouvementPapiers(){
+        return $this->hasMany(MouvementPapier::class, 'devis_livre_id', 'id_devis');
+    }
+
+    public function mouvementReliures(){
+        return $this->hasMany(MouvementReliure::class, 'devis_livre_id', 'id_devis');
     }
 
     public function calculMontant() {

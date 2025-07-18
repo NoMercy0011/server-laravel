@@ -14,15 +14,14 @@ class Papier extends Model
     protected $table = 'papiers';
 
     protected $fillable = [
-        'categorie',
-        'accessoire',
+        'stock_papier_id',
+        'couleur_id',
+        'imprimante_id',
+        'prix'
     ];
 
-    public  function categorie(){
-        return $this->belongsTo(Categorie::class, 'categorie_id', 'id_categorie' );
-    }
-    public function accessoire(){
-        return $this->belongsTo(Accessoire::class, 'accessoire_id', 'id_accessoire');
+    public  function stockPapier(){
+        return $this->belongsTo(StockPapier::class, 'stock_papier_id', 'id_stock_papier' );
     }
     public function couleur(){
         return $this->belongsTo(Couleur::class, 'couleur_id', 'id_couleur');
