@@ -26,6 +26,7 @@ class DevisLivre extends Model
         'finition_id',
         'quantite',
         'montant',
+        'client_id',
         'user_id',
         'status',
     ];
@@ -60,6 +61,10 @@ class DevisLivre extends Model
 
     public function personnel(){
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function client(){
+        return $this->belongsTo(Client::class, 'client_id', 'id_client');
     }
 
     public function mouvementPapiers(){

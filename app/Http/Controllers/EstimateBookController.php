@@ -24,17 +24,17 @@ class EstimateBookController extends Controller
     public function livre() {
         $livre = Livre::all()->map(function($item){
             return [
-                'id_livre' => $item->id_livre,
-                'livre' => $item->livre,
-                'img' => $item->img,
+                'id_livre' => $item->id_livre ?? null,
+                'livre' => $item->livre ?? null,
+                'img' => $item->img ?? null,
             ];
         });
 
         $dimenssion = Dimension::all()->map(function($item){
             return [
-                'id_dimension' => $item->id_dimension,
-                'dimension' => $item->dimension,
-                'unitée' => $item->unitée,
+                'id_dimension' => $item->id_dimension ?? null,
+                'dimension' => $item->dimension ?? null,
+                'unitée' => $item->unitée ?? null,
             ];
         });
 
@@ -46,57 +46,57 @@ class EstimateBookController extends Controller
             ])->get()
             ->map(function ($item){
                 return [
-                    'id_papier' => $item->id_papier,
+                    'id_papier' => $item->id_papier ?? null,
                     'categorie' => [
-                        'id_categorie' => $item->stockPapier->categorie->id_categorie,
-                        'categorie' => $item->stockPapier->categorie->categorie,
+                        'id_categorie' => $item->stockPapier?->categorie?->id_categorie ?? null,
+                        'categorie' => $item->stockPapier?->categorie?->categorie ?? null,
                     ],
                     'accessoire' => [
-                        'id_accessoire' => $item->stockPapier->accessoire->id_accessoire,
-                        'accessoire' => $item->stockPapier->accessoire->accessoire,
+                        'id_accessoire' => $item->stockPapier->accessoire->id_accessoire ?? null,
+                        'accessoire' => $item->stockPapier->accessoire->accessoire ?? null,
                     ],
                     'couleur' => [
-                        'id_couleur' => $item->couleur->id_couleur,
-                        'couleur' => $item->couleur->couleur,
+                        'id_couleur' => $item->couleur->id_couleur ?? null,
+                        'couleur' => $item->couleur->couleur ?? null,
                     ],
                     'imprimante' => [
-                        'id_imprimante' => $item->imprimante->id_imprimante,
-                        'imprimante' => $item->imprimante->imprimante,
+                        'id_imprimante' => $item->imprimante->id_imprimante ?? null,
+                        'imprimante' => $item->imprimante->imprimante ?? null,
                     ],
-                    'prix' => $item->prix,
+                    'prix' => $item->prix ?? null,
                 ];
             });
 
             $couleurs = Couleur::all()->map(function ($item){
                 return [
-                    'id_couleur' => $item->id_couleur,
-                    'couleur' => $item->couleur
+                    'id_couleur' => $item->id_couleur ?? null,
+                    'couleur' => $item->couleur ?? null
                 ];  
             });
 
         $recto = RectoVerso::all()->map(function ($item){
             return [
-                'id_recto' => $item->id_recto,
-                'type' => $item->type,
+                'id_recto' => $item->id_recto ?? null,
+                'type' => $item->type ?? null,
             ];
         });
 
         $couverture = Couverture::with(['categorie', 'accessoire', 'imprimante'])->get()->map(function($item){
             return [
-                'id_couverture' => $item->id_couverture,
+                'id_couverture' => $item->id_couverture ?? null,
                 'categorie' => [
-                    'id_categorie' => $item->categorie?->id_categorie,
-                    'categorie' => $item->categorie?->categorie,
+                    'id_categorie' => $item->categorie?->id_categorie ?? null,
+                    'categorie' => $item->categorie?->categorie ?? null,
                 ],
                 'accessoire' => [
-                    'id_accessoire' => $item->accessoire?->id_accessoire,
-                    'accessoire' => $item->accessoire?->accessoire,
+                    'id_accessoire' => $item->accessoire?->id_accessoire ?? null,
+                    'accessoire' => $item->accessoire?->accessoire ?? null,
                 ],
                 'imprimante' => [
-                    'id_imprimante' => $item->imprimante?->id_imprimante,
-                    'imprimante' => $item->imprimante?->imprimante,
+                    'id_imprimante' => $item->imprimante?->id_imprimante ?? null,
+                    'imprimante' => $item->imprimante?->imprimante ?? null,
                 ],
-                'prix' => $item->prix,
+                'prix' => $item->prix ?? null,
             ];
         });
 
@@ -106,12 +106,12 @@ class EstimateBookController extends Controller
         ])->get()
         ->map(function ($item){
             return [
-                'id_reliure' => $item->id_reliure,
+                'id_reliure' => $item->id_reliure ?? null,
                 'reference' =>  $item /*.' ' .$item*/,
-                'min' => $item->min,
-                'max' => $item->max,
-                'papier' => $item->papier->accessoire,
-                'prix' => $item->prix,
+                'min' => $item->min ?? null,
+                'max' => $item->max ?? null,
+                'papier' => $item->papier->accessoire ?? null,
+                'prix' => $item->prix ?? null,
 
             ];
         });
@@ -167,18 +167,19 @@ class EstimateBookController extends Controller
             $personnel = $request->user();
 
             $estimate = DevisLivre::create([
-                'livre'=> $request->type,
-                'dimension'=> $request->dimension,
-                'papier' => $request->papier,
-                'couleur'=> $request->couleur,
-                'recto_verso'=> $request->recto_verso,
-                'pages'=> $request->pages,
-                'couverture'=> $request->couverture,
-                'reliure'=> $request->reliure,
-                'finition'=> $request->finition,
-                'quantite'=> $request->quantite,
-                'montant'=> $request->montant,
-                'personnel'=> $personnel->id,
+                'livre_id'=> $request->type ?? null,
+                'dimension_id'=> $request->dimension ?? null,
+                'papier_id' => $request->papier ?? null,
+                'couleur_id'=> $request->couleur ?? null,
+                'recto_verso_id'=> $request->recto_verso ?? null,
+                'pages'=> $request->pages ?? null,
+                'couverture_id'=> $request->couverture ?? null,
+                'reliure_id'=> $request->reliure ?? null,
+                'finition_id'=> $request->finition ?? null,
+                'quantite'=> $request->quantite ?? null,
+                'montant'=> $request->montant ?? null,
+                'client_id'=> $request->client ?? null,
+                'personnel'=> $personnel->id ?? null,
 
             ]);
 
@@ -202,6 +203,7 @@ class EstimateBookController extends Controller
             'reliure.stockReliure', 
             'finition', 
             'personnel',
+            'client'
         ])->get();
 
 
@@ -225,6 +227,10 @@ class EstimateBookController extends Controller
                 'reference' => $item->reliure->reference->reference ?? null,
             ], 
             'finition' => $item->finition->finition ?? null, 
+            'client' => [
+                'nom' => $item->client->nom,
+                'prenom' => $item->client->prenom,
+            ],
             'personnel' => [
                 'nom' => $item->personnel->nom,
                 'pseudo' => $item->personnel->pseudo,

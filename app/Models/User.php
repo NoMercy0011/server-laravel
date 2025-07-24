@@ -52,4 +52,7 @@ class User extends Authenticatable
     public function mouvementsReliures(){
         return $this->hasMany(MouvementReliure::class, 'user_id', 'id');
     }
+    public function commandesUsers(){
+        return $this->hasMany(Commande::class, 'personnel_id', 'id');
+    }
 }

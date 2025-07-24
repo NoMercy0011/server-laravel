@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\EstimateBookController;
 use App\Http\Controllers\TenantController;
 use App\Http\Middleware\InitializeTenancyByHeader;
@@ -33,4 +34,5 @@ Route::middleware([
     Route::get('livre' , [EstimateBookController::class, 'livre']);
     Route::post( 'devis-livre', [EstimateBookController::class, 'devisLivre']);
     Route::get( 'devis-livre', [EstimateBookController::class, 'getDevisLivre']);
+    Route::post('commande', [CommandeController::class, 'create']);
 });

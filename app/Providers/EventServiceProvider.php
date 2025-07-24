@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\CommandeCreate;
 use App\Events\DevisLivreCreate;
 use App\Events\TestEventReverb;
+use App\Listeners\NotificationCommandeCreate;
 use App\Listeners\SendDevisLivreNotification;
 use App\Listeners\TestActionToSocket;
 use Illuminate\Auth\Events\Registered;
@@ -27,6 +29,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         DevisLivreCreate::class => [
             SendDevisLivreNotification::class,
+        ],
+        
+        CommandeCreate::class => [
+            NotificationCommandeCreate::class,
         ],
     ];
 
