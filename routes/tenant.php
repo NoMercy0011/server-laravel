@@ -35,4 +35,5 @@ Route::middleware([
     Route::post( 'devis-livre', [EstimateBookController::class, 'devisLivre']);
     Route::get( 'devis-livre', [EstimateBookController::class, 'getDevisLivre']);
     Route::post('commande', [CommandeController::class, 'create']);
+    Route::get('commande', [CommandeController::class, 'get']);
 });

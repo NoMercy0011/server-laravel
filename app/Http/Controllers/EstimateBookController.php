@@ -228,12 +228,12 @@ class EstimateBookController extends Controller
             ], 
             'finition' => $item->finition->finition ?? null, 
             'client' => [
-                'nom' => $item->client->nom,
-                'prenom' => $item->client->prenom,
+                'nom' => $item->client->nom ?? null,
+                'prenom' => $item->client->prenom ?? null,
             ],
             'personnel' => [
-                'nom' => $item->personnel->nom,
-                'pseudo' => $item->personnel->pseudo,
+                'nom' => $item->personnel->nom ?? null,
+                'pseudo' => $item->personnel->pseudo ?? null,
             ], 
             ];
         });

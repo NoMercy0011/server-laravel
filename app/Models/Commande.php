@@ -15,6 +15,7 @@ class Commande extends Model
         'commande',
         'devis_cible',
         'devis_id',
+        'prix',
         'personnel_id'
     ];
 

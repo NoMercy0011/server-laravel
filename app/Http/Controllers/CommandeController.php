@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\CommandeCreate;
 use App\Models\Commande;
+use App\Models\DevisLivre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,8 +14,9 @@ class CommandeController extends Controller
         $user = $request->user();
         $validator = Validator::make($request->all(), [
             'commande'=> 'required|string',
-            'devis_cible' => 'required|int',
+            'devis_cible' => 'required|string',
             'devis_id' => 'required|int',
+            'prix' => 'required|string',
             'personnel_id'=> 'required|int',
         ]);
 
@@ -35,6 +37,7 @@ class CommandeController extends Controller
                 'commande'=> $request->commande ?? null,
                 'devis_cible'=> $request->devis_cible ?? null,
                 'devis_id' => $request->devis_id ?? null,
+                'prix' => $request->prix ?? null,
                 'personnel_id'=> $request->personnel_id ?? null,
             ]);
         $signature = $request->devis_cible ?? null;
@@ -44,5 +47,19 @@ class CommandeController extends Controller
             'type' => $signature,
 
         ]);
+    }
 }
-}}
+    public function get() {
+        
+        $commandes = Commande::all()->map( function ($item) {
+            // $devis = DevisLivre
+            return [
+                'data' => $item,
+            ];
+        });
+
+        return response()->json([
+            'commandes' => $commandes
+        ]);
+    }
+}
