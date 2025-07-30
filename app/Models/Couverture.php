@@ -14,7 +14,7 @@ class Couverture extends Model
     protected $table = 'couvertures';
 
     public  function stockPapier(){
-        return $this->belongsTo(StockPapier::class, 'stock_papier_id', 'id_stock_papier' );
+        return $this->belongsTo(StockPapier::class, 'stock_papier_id', 'id_stock_papier');
     }
     public function imprimante(){
         return $this->belongsTo(Imprimante::class, 'imprimante_id', 'id_imprimante');

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Events\DevisLivreCreate;
-use App\Models\Accessoir;
-use App\Models\Categorie;
 use App\Models\Couleur;
 use App\Models\Couverture;
 use App\Models\DevisLivre;
@@ -14,8 +12,6 @@ use App\Models\Livre;
 use App\Models\Papier;
 use App\Models\RectoVerso;
 use App\Models\Reliure;
-use App\Models\StockPapier;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -81,16 +77,20 @@ class EstimateBookController extends Controller
             ];
         });
 
-        $couverture = Couverture::with(['categorie', 'accessoire', 'imprimante'])->get()->map(function($item){
+        $couverture = Couverture::with([
+            'stockPapier.categorie', 
+            'stockPapier.accessoire', 
+            'imprimante'
+        ])->get()->map(function($item){
             return [
                 'id_couverture' => $item->id_couverture ?? null,
                 'categorie' => [
-                    'id_categorie' => $item->categorie?->id_categorie ?? null,
-                    'categorie' => $item->categorie?->categorie ?? null,
+                    'id_categorie' => $item->stockPapier?->categorie?->id_categorie ?? null,
+                    'categorie' => $item->stockPapier?->categorie?->categorie ?? null,
                 ],
                 'accessoire' => [
-                    'id_accessoire' => $item->accessoire?->id_accessoire ?? null,
-                    'accessoire' => $item->accessoire?->accessoire ?? null,
+                    'id_accessoire' => $item->stockPapier->accessoire->id_accessoire ?? null,
+                    'accessoire' => $item->stockPapier->accessoire->accessoire ?? null,
                 ],
                 'imprimante' => [
                     'id_imprimante' => $item->imprimante?->id_imprimante ?? null,
@@ -107,7 +107,8 @@ class EstimateBookController extends Controller
         ->map(function ($item){
             return [
                 'id_reliure' => $item->id_reliure ?? null,
-                'reference' =>  $item /*.' ' .$item*/,
+                'reliure' => $item->stockReliure?->reliure ?? null,
+                'reference' => $item->stockReliure?->reference ?? null,
                 'min' => $item->min ?? null,
                 'max' => $item->max ?? null,
                 'papier' => $item->papier->accessoire ?? null,

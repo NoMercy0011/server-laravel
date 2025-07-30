@@ -13,6 +13,13 @@ class Reliure extends Model
     protected $primaryKey = 'id_reliure';
     protected $table = 'reliures';
 
+    protected $fillable = [
+        'stock_reliure_id',
+        'min',
+        'max',
+        'papier_id',
+    ];
+
     public function devisLivres(){
         return $this->hasMany(DevisLivre::class, 'reliure_id', 'id_reliure');
     }
