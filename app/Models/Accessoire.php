@@ -13,7 +13,7 @@ class Accessoire extends Model
 
     protected $table = 'accessoires';
 
-    public function stcokPapiers(){
+    public function stockPapiers(){
         return $this->hasMany(StockPapier::class, 'accessoire_id', 'id_accessoire');
     }
 

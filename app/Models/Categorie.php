@@ -13,7 +13,7 @@ class Categorie extends Model
 
     protected $table = 'categories';
 
-    public function stcokPapiers(){
+    public function stockPapiers(){
         return $this->hasMany(StockPapier::class, 'categorie_id', 'id_categorie');
     }
 

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Events\DevisLivreCreate;
+use App\Models\Categorie;
 use App\Models\Couleur;
 use App\Models\Couverture;
 use App\Models\DevisLivre;
 use App\Models\Dimension;
 use App\Models\Finition;
 use App\Models\Livre;
-use App\Models\Papier;
 use App\Models\RectoVerso;
 use App\Models\Reliure;
 use Illuminate\Http\Request;
@@ -34,32 +34,20 @@ class EstimateBookController extends Controller
             ];
         });
 
-        $papiers = Papier::with([
-                'stockPapier.categorie',
-                'stockPapier.accessoire',
-                'couleur',
-                'imprimante',
+        $papiers = Categorie::with([
+                'stockPapiers.papiers',
+                'stockPapiers.accessoire'
             ])->get()
             ->map(function ($item){
                 return [
-                    'id_papier' => $item->id_papier ?? null,
-                    'categorie' => [
-                        'id_categorie' => $item->stockPapier?->categorie?->id_categorie ?? null,
-                        'categorie' => $item->stockPapier?->categorie?->categorie ?? null,
-                    ],
-                    'accessoire' => [
-                        'id_accessoire' => $item->stockPapier->accessoire->id_accessoire ?? null,
-                        'accessoire' => $item->stockPapier->accessoire->accessoire ?? null,
-                    ],
-                    'couleur' => [
-                        'id_couleur' => $item->couleur->id_couleur ?? null,
-                        'couleur' => $item->couleur->couleur ?? null,
-                    ],
-                    'imprimante' => [
-                        'id_imprimante' => $item->imprimante->id_imprimante ?? null,
-                        'imprimante' => $item->imprimante->imprimante ?? null,
-                    ],
-                    'prix' => $item->prix ?? null,
+                    'categorie' => $item->categorie ?? null,
+                    'accessoire' => $item->stockPapiers->map( function ($stockPapier) {
+                        return [
+                            'accessoire' => $stockPapier->accessoire->accessoire,
+                            'id_papier' => $stockPapier->papiers->first()->id_papier ?? null,
+                            'prix' => $stockPapier->papiers->first()->prix ?? null,
+                        ];
+                    })
                 ];
             });
 
@@ -77,26 +65,31 @@ class EstimateBookController extends Controller
             ];
         });
 
-        $couverture = Couverture::with([
-            'stockPapier.categorie', 
-            'stockPapier.accessoire', 
-            'imprimante'
-        ])->get()->map(function($item){
+        $couverture = Categorie::with( [
+            'stockPapiers' => function( $query) {
+               $query->whereHas('couvertures')->with([ 'couvertures', 'accessoire']); 
+            }
+        ])->whereHas('stockPapiers.couvertures') ->get()->map(function($item){
             return [
-                'id_couverture' => $item->id_couverture ?? null,
-                'categorie' => [
-                    'id_categorie' => $item->stockPapier?->categorie?->id_categorie ?? null,
-                    'categorie' => $item->stockPapier?->categorie?->categorie ?? null,
-                ],
-                'accessoire' => [
-                    'id_accessoire' => $item->stockPapier->accessoire->id_accessoire ?? null,
-                    'accessoire' => $item->stockPapier->accessoire->accessoire ?? null,
-                ],
-                'imprimante' => [
-                    'id_imprimante' => $item->imprimante?->id_imprimante ?? null,
-                    'imprimante' => $item->imprimante?->imprimante ?? null,
-                ],
-                'prix' => $item->prix ?? null,
+                //'item' => $item,
+                'categorie' => $item->categorie ?? null,
+                'accessoire' => $item->stockPapiers->map( function ($accessoire) {
+                    return [
+                        'accessoire' => $accessoire->accessoire->accessoire,
+                        'id_couverture' => $accessoire->couvertures->first()->id_couverture, 
+                        'prix' => $accessoire->couvertures->first()->prix, 
+                    ];
+                }),
+            ];
+        });
+
+        $data = Couverture::with([
+            'stockPapier.categorie',
+            'stockPapier.accessoire',
+
+        ])->get()->map(function($item) {
+            return [
+                $item,
             ];
         });
 
@@ -119,9 +112,9 @@ class EstimateBookController extends Controller
 
         $finition = Finition::all()->map(function ($item){
             return [
-                'id_finition' => $item->id_finition,
-                'finition' => $item->finition,
-                'prix' => $item->prix,
+                'id_finition' => $item->id_finition ?? null,
+                'finition' => $item->finition ?? null,
+                'prix' => $item->prix ?? null,
             ];
         });
 
@@ -245,3 +238,33 @@ class EstimateBookController extends Controller
         ]);
     }
 }
+
+
+// $papiers = Papier::with([
+//                 'stockPapier.categorie',
+//                 'stockPapier.accessoire',
+//                 'couleur',
+//                 'imprimante',
+//             ])->get()
+//             ->map(function ($item){
+//                 return [
+//                     'id_papier' => $item->id_papier ?? null,
+//                     'categorie' => [
+//                         'id_categorie' => $item->stockPapier?->categorie?->id_categorie ?? null,
+//                         'categorie' => $item->stockPapier?->categorie?->categorie ?? null,
+//                     ],
+//                     'accessoire' => [
+//                         'id_accessoire' => $item->stockPapier->accessoire->id_accessoire ?? null,
+//                         'accessoire' => $item->stockPapier->accessoire->accessoire ?? null,
+//                     ],
+//                     'couleur' => [
+//                         'id_couleur' => $item->couleur->id_couleur ?? null,
+//                         'couleur' => $item->couleur->couleur ?? null,
+//                     ],
+//                     'imprimante' => [
+//                         'id_imprimante' => $item->imprimante->id_imprimante ?? null,
+//                         'imprimante' => $item->imprimante->imprimante ?? null,
+//                     ],
+//                     'prix' => $item->prix ?? null,
+//                 ];
+//             });
