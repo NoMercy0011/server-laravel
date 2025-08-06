@@ -143,14 +143,14 @@ class EstimateBookController extends Controller
         return response()->json([
             'status' => 200,
             'livre' => [
-                //'livres' => $livre,
-                //'dimensions' => $dimenssion,
-                //'papiers' => $papiers,
-                //'couleurs' => $couleurs,
-                //'recto-verso' => $recto,
-                //'couvertures' => $couverture,
+                'livres' => $livre,
+                'dimensions' => $dimenssion,
+                'papiers' => $papiers,
+                'couleurs' => $couleurs,
+                'recto-verso' => $recto,
+                'couvertures' => $couverture,
                 'reliure' => $reliure,
-                //'finition' => $finition,
+                'finition' => $finition,
             ],
         ]);
     }
