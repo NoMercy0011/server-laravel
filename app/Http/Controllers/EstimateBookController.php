@@ -12,6 +12,7 @@ use App\Models\Finition;
 use App\Models\Livre;
 use App\Models\RectoVerso;
 use App\Models\Reliure;
+use App\Models\StockReliure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -93,22 +94,43 @@ class EstimateBookController extends Controller
             ];
         });
 
-        $reliure = Reliure::with([
-            'stockReliure',
-            'papier',
-        ])->get()
-        ->map(function ($item){
+        $reliure = StockReliure::with([
+            'reliures.papier'
+        ])->get()->map( function( $reliure) {
             return [
-                'id_reliure' => $item->id_reliure ?? null,
-                'reliure' => $item->stockReliure?->reliure ?? null,
-                'reference' => $item->stockReliure?->reference ?? null,
-                'min' => $item->min ?? null,
-                'max' => $item->max ?? null,
-                'papier' => $item->papier->accessoire ?? null,
-                'prix' => $item->prix ?? null,
-
+                //'data' => $reliure,
+                //'id_stock_reliure' => $reliure->id_stock_reliure ?? null,
+                'type' => $reliure->reliure ?? null,
+                'reference' => $reliure->reference ?? null,
+                'stock' => $reliure->stock ?? null,
+                'seuil' => $reliure->seuil ?? null,
+                'reliures' => $reliure->reliures->map(function ( $item) {
+                    return [
+                        'id_reliure' => $item->id_reliure ?? null,
+                        'min' => $item->min ?? null,
+                        'max' => $item->max ?? null,
+                        'papier' => $item->papier->accessoire ?? null,
+                        'prix' => $item->prix ?? null,
+                    ];
+                }),
             ];
-        });
+        }) ;
+        // $reliure = Reliure::with([
+        //     'stockReliure',
+        //     'papier',
+        // ])->get()
+        // ->map(function ($item){
+        //     return [
+        //         'id_reliure' => $item->id_reliure ?? null,
+        //         'reliure' => $item->stockReliure?->reliure ?? null,
+        //         'reference' => $item->stockReliure?->reference ?? null,
+        //         'min' => $item->min ?? null,
+        //         'max' => $item->max ?? null,
+        //         'papier' => $item->papier->accessoire ?? null,
+        //         'prix' => $item->prix ?? null,
+
+        //     ];
+        // });
 
         $finition = Finition::all()->map(function ($item){
             return [
@@ -121,14 +143,14 @@ class EstimateBookController extends Controller
         return response()->json([
             'status' => 200,
             'livre' => [
-                'livres' => $livre,
-                'dimensions' => $dimenssion,
-                'papiers' => $papiers,
-                'couleurs' => $couleurs,
-                'recto-verso' => $recto,
-                'couvertures' => $couverture,
+                //'livres' => $livre,
+                //'dimensions' => $dimenssion,
+                //'papiers' => $papiers,
+                //'couleurs' => $couleurs,
+                //'recto-verso' => $recto,
+                //'couvertures' => $couverture,
                 'reliure' => $reliure,
-                'finition' => $finition,
+                //'finition' => $finition,
             ],
         ]);
     }
