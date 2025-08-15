@@ -34,3 +34,8 @@ Route::middleware('tenant.auth' )->group(function (){
 });
 
 Route::post('/send-message', [MessageUpdatedController::class, 'send']);
+Route::get('/' , function(){
+    return response()->json([
+        "message" => 'HELLO CLIENT',
+    ]);
+});
