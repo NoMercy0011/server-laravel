@@ -40,7 +40,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            //\App\Http\Middleware\InitializeTenancyByHeader::class,
+            \App\Http\Middleware\InitializeTenancyByHeader::class,
             //\App\Http\Middleware\VerifyTenantToken::class,
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
