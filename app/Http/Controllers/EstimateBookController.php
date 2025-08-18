@@ -99,7 +99,7 @@ class EstimateBookController extends Controller
         ])->get()->map( function( $reliure) {
             return [
                 //'data' => $reliure,
-                //'id_stock_reliure' => $reliure->id_stock_reliure ?? null,
+                'id_stock_reliure' => $reliure->id_stock_reliure ?? null,
                 'type' => $reliure->reliure ?? null,
                 'reference' => $reliure->reference ?? null,
                 'stock' => $reliure->stock ?? null,
@@ -113,6 +113,7 @@ class EstimateBookController extends Controller
                         'prix' => $item->prix ?? null,
                     ];
                 }),
+                
             ];
         }) ;
         // $reliure = Reliure::with([
@@ -147,7 +148,7 @@ class EstimateBookController extends Controller
                 'dimensions' => $dimenssion,
                 'papiers' => $papiers,
                 'couleurs' => $couleurs,
-                'recto-verso' => $recto,
+                'recto_verso' => $recto,
                 'couvertures' => $couverture,
                 'reliure' => $reliure,
                 'finition' => $finition,
