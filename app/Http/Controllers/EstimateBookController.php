@@ -9,6 +9,7 @@ use App\Models\Couverture;
 use App\Models\DevisLivre;
 use App\Models\Dimension;
 use App\Models\Finition;
+use App\Models\Imprimante;
 use App\Models\Livre;
 use App\Models\RectoVerso;
 use App\Models\Reliure;
@@ -32,6 +33,7 @@ class EstimateBookController extends Controller
                 'id_dimension' => $item->id_dimension ?? null,
                 'dimension' => $item->dimension ?? null,
                 'unitée' => $item->unitée ?? null,
+                'pose' => $item->pose ?? null,
             ];
         });
 
@@ -55,7 +57,8 @@ class EstimateBookController extends Controller
             $couleurs = Couleur::all()->map(function ($item){
                 return [
                     'id_couleur' => $item->id_couleur ?? null,
-                    'couleur' => $item->couleur ?? null
+                    'couleur' => $item->couleur ?? null,
+                    'code' => $item->code ?? null,
                 ];  
             });
 
@@ -63,6 +66,8 @@ class EstimateBookController extends Controller
             return [
                 'id_recto' => $item->id_recto ?? null,
                 'type' => $item->type ?? null,
+                'code' => $item->code ?? null,
+
             ];
         });
 
@@ -83,6 +88,7 @@ class EstimateBookController extends Controller
                 }),
             ];
         });
+        $printer = Imprimante::get(['id_imprimante', 'imprimante']);
 
         $data = Couverture::with([
             'stockPapier.categorie',
@@ -116,22 +122,6 @@ class EstimateBookController extends Controller
                 
             ];
         }) ;
-        // $reliure = Reliure::with([
-        //     'stockReliure',
-        //     'papier',
-        // ])->get()
-        // ->map(function ($item){
-        //     return [
-        //         'id_reliure' => $item->id_reliure ?? null,
-        //         'reliure' => $item->stockReliure?->reliure ?? null,
-        //         'reference' => $item->stockReliure?->reference ?? null,
-        //         'min' => $item->min ?? null,
-        //         'max' => $item->max ?? null,
-        //         'papier' => $item->papier->accessoire ?? null,
-        //         'prix' => $item->prix ?? null,
-
-        //     ];
-        // });
 
         $finition = Finition::all()->map(function ($item){
             return [
@@ -150,6 +140,7 @@ class EstimateBookController extends Controller
                 'couleurs' => $couleurs,
                 'recto_verso' => $recto,
                 'couvertures' => $couverture,
+                'imprimante' => $printer,
                 'reliure' => $reliure,
                 'finition' => $finition,
             ],
