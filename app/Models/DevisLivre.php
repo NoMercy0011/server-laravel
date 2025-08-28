@@ -29,8 +29,11 @@ class DevisLivre extends Model
         'client_id',
         'user_id',
         'status',
+        'document_id',
     ];
-
+    public  function document(){
+        return $this->belongsTo(Document::class, 'document_id', 'id_document' );
+    }
     public  function livre(){
         return $this->belongsTo(Livre::class, 'livre_id', 'id_livre' );
     }
@@ -48,7 +51,7 @@ class DevisLivre extends Model
     }
 
     public function couverture(){
-        return $this->belongsTo(Couverture::class, 'couverture_id', 'id_couverture');
+        return $this->belongsTo(Papier::class, 'papier_id', 'id_papier' );
     }
 
     public function reliure(){

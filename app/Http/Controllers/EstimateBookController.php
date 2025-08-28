@@ -49,6 +49,7 @@ class EstimateBookController extends Controller
                             'accessoire' => $stockPapier->accessoire->accessoire,
                             'id_papier' => $stockPapier->papiers->first()->id_papier ?? null,
                             'prix' => $stockPapier->papiers->first()->prix ?? null,
+                            'categorie' => $stockPapier->categorie->categorie ?? null,
                         ];
                     })
                 ];

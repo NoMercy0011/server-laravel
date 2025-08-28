@@ -2,17 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CommercialController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EstimateBookController;
-use App\Http\Controllers\TenantController;
 use App\Http\Middleware\InitializeTenancyByHeader;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +35,8 @@ Route::middleware([
 
     Route::post( 'devis-livre', [EstimateBookController::class, 'devisLivre']);
     Route::post('commande', [CommandeController::class, 'create']);
+    Route::post('document-facture', [DocumentController::class, 'createFacture']);
+    Route::post('document-proforma', [DocumentController::class, 'createProforma']);
     Route::post( 'client', [ClientController::class, 'create']);
     Route::post( 'commercial', [CommercialController::class, 'create']);
 
@@ -49,4 +46,5 @@ Route::middleware([
     Route::get('livre' , [EstimateBookController::class, 'livre']);
     Route::get( 'devis-livre', [EstimateBookController::class, 'getDevisLivre']);
     Route::get('commande', [CommandeController::class, 'get']);
+    Route::get('document', [DocumentController::class, 'getDocument']);
 });

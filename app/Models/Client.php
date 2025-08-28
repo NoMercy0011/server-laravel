@@ -29,6 +29,9 @@ class Client extends Model
     public function devisLivreClients(){
         return $this->hasMany(DevisLivre::class, 'client_id', 'id_client');
     }
+    public function clientDocuments(){
+        return $this->hasMany(Document::class, 'client_id', 'id_client');
+    }
 
     public function commercial() {
         return $this->belongsTo( Commercial::class, 'commercial_id', 'id_commercial');
