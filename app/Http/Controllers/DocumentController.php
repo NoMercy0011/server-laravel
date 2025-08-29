@@ -156,6 +156,15 @@ class DocumentController extends Controller
                     'nom_societe' => $document->client->nom_societe ?? null, 
                     'nom_contact' => $document->client->nom_contact ?? null, 
                     'media_social' => $document->client->media_social ?? null, 
+                    'commercial_id' => $document->client->commercial_id ?? null, 
+                    'email' => $document->client->email ?? null, 
+                    'telephone_1' => $document->client->telephone_1 ?? null, 
+                    'telephone_2' => $document->client->telephone_2 ?? null, 
+                    'nif' => $document->client->nif ?? null, 
+                    'stat' => $document->client->stat ?? null, 
+                    'rue' => $document->client->rue ?? null, 
+                    'ville' => $document->client->ville ?? null, 
+                    'status' => $document->client->status ?? null, 
                 ],
 
                 'ligne_document' => $document->ligneDocuments->map(function ($ligne) {
@@ -198,6 +207,15 @@ class DocumentController extends Controller
                     'nom_societe' => $document->client->nom_societe ?? null, 
                     'nom_contact' => $document->client->nom_contact ?? null, 
                     'media_social' => $document->client->media_social ?? null, 
+                    'commercial_id' => $document->client->commercial_id ?? null, 
+                    'email' => $document->client->email ?? null, 
+                    'telephone_1' => $document->client->telephone_1 ?? null, 
+                    'telephone_2' => $document->client->telephone_2 ?? null, 
+                    'nif' => $document->client->nif ?? null, 
+                    'stat' => $document->client->stat ?? null, 
+                    'rue' => $document->client->rue ?? null, 
+                    'ville' => $document->client->ville ?? null, 
+                    'status' => $document->client->status ?? null, 
                 ],
 
                 'ligne_document' => $document->ligneDocuments->map(function ($ligne) {
