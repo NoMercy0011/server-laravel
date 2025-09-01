@@ -77,10 +77,4 @@ class DevisLivre extends Model
     public function mouvementReliures(){
         return $this->hasMany(MouvementReliure::class, 'devis_livre_id', 'id_devis');
     }
-
-    public function calculMontant() {
-        $total = 0;
-
-        return $total;
-    }
 }
