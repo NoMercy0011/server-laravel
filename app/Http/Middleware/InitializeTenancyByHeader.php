@@ -47,8 +47,8 @@ class InitializeTenancyByHeader
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => $tenant->database,
-            'username' => env($tenant->dot_env),
-            'password' => env('DB_PASSWORD'),
+            'username' => env($tenant->dot_env, 'u277598672_main'),
+            'password' => $tenant->password ?? null | env('DB_PASSWORD'),
         ]);
 
         DB::purge('tenant');
