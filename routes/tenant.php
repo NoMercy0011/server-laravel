@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CommercialController;
@@ -47,4 +48,10 @@ Route::middleware([
     Route::get( 'devis-livre', [EstimateBookController::class, 'getDevisLivre']);
     Route::get('commande', [CommandeController::class, 'get']);
     Route::get('document', [DocumentController::class, 'getDocument']);
+
+    Route::get('packaging', [CatalogueController::class, 'getPackaging']);
+    Route::get('calendar', [CatalogueController::class, 'getCalendar']);
+    Route::get('chevalet', [CatalogueController::class, 'getChevalet']);
+    Route::get('carterie', [CatalogueController::class, 'getCarterie']);
+
 });

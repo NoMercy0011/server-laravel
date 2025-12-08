@@ -253,33 +253,3 @@ class EstimateBookController extends Controller
         ]);
     }
 }
-
-
-// $papiers = Papier::with([
-//                 'stockPapier.categorie',
-//                 'stockPapier.accessoire',
-//                 'couleur',
-//                 'imprimante',
-//             ])->get()
-//             ->map(function ($item){
-//                 return [
-//                     'id_papier' => $item->id_papier ?? null,
-//                     'categorie' => [
-//                         'id_categorie' => $item->stockPapier?->categorie?->id_categorie ?? null,
-//                         'categorie' => $item->stockPapier?->categorie?->categorie ?? null,
-//                     ],
-//                     'accessoire' => [
-//                         'id_accessoire' => $item->stockPapier->accessoire->id_accessoire ?? null,
-//                         'accessoire' => $item->stockPapier->accessoire->accessoire ?? null,
-//                     ],
-//                     'couleur' => [
-//                         'id_couleur' => $item->couleur->id_couleur ?? null,
-//                         'couleur' => $item->couleur->couleur ?? null,
-//                     ],
-//                     'imprimante' => [
-//                         'id_imprimante' => $item->imprimante->id_imprimante ?? null,
-//                         'imprimante' => $item->imprimante->imprimante ?? null,
-//                     ],
-//                     'prix' => $item->prix ?? null,
-//                 ];
-//             });
