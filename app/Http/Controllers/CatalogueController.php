@@ -223,7 +223,7 @@ class CatalogueController extends Controller
                             "particularite" => $particularite->particularite,
                         ];
                     }),
-                    "orientation" => $orientation,
+                    "orientations" => $orientation,
                     "faces" => $face,
 
                 ];
