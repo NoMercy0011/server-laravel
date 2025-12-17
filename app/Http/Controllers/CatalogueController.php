@@ -240,7 +240,7 @@ class CatalogueController extends Controller
         $carterie_id = Catalogue::where( "code" , "=", "carterie")->first()->id;
         $catalogueType = CatalogueType::where('catalogue_id', '=', $carterie_id)
         ->with([ 
-            'catalogue', 'dimensions','matieres.inventaire','imprimantes','finitions', 'particularites' 
+            'catalogue', 'dimensions','matieres.inventaire','imprimantes','decoupes'
         ])->get()->map ( function ($catalogueType) use($face)  {
             return [   
                     "id" => $catalogueType->id,
@@ -273,10 +273,11 @@ class CatalogueController extends Controller
                             "unitee" => $matiere->inventaire->unitee,
                         ];
                     }),
-                    "finitions" => $catalogueType->finitions->map( function ($finition) {
+                    "decoupes" => $catalogueType->decoupes->map( function ($decoupe) {
                         return [
-                            "id"=> $finition->id,
-                            "finition" => $finition->finition,
+                            "id"=> $decoupe->id,
+                            "decoupe" => $decoupe->decoupe,
+                            "prix" => $decoupe->prix,
                         ];
                     }),
                     "imprimantes" => $catalogueType->imprimantes->map( function ($imprimante) {
@@ -284,12 +285,6 @@ class CatalogueController extends Controller
                             "id"=> $imprimante->id,
                             "imprimante" => $imprimante->imprimante,    
                         ];  
-                    }),
-                    "particularites" => $catalogueType->particularites->map( function ($particularite) {
-                        return [    
-                            "id"=> $particularite->id,
-                            "particularite" => $particularite->particularite,
-                        ];
                     }),
                     "faces" => $face,
             ];
