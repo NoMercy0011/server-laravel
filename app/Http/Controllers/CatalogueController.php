@@ -195,7 +195,7 @@ class CatalogueController extends Controller
                             "dimension" => $dimension->dimension,
                             "ratio" => $dimension->ratio,
                         ];
-                    }),
+                    })->orderBy('dimension'),
                     "socles" => $catalogueType->socles->map( function ($socle) {
                         return [
                             "id"=> $socle->id,

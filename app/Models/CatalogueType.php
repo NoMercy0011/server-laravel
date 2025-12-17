@@ -22,7 +22,7 @@ class CatalogueType extends Model
     }
 
     public function dimensions(){
-        return $this->hasMany(DimensionCatalogue::class,'catalogue_type_id','id');
+        return $this->hasMany(DimensionCatalogue::class,'catalogue_type_id','id')->orderBy('dimension');
     }
 
     public function matieres() {
