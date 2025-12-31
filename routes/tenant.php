@@ -53,5 +53,6 @@ Route::middleware([
     Route::get('calendar', [CatalogueController::class, 'getCalendar']);
     Route::get('chevalet', [CatalogueController::class, 'getChevalet']);
     Route::get('carterie', [CatalogueController::class, 'getCarterie']);
+    Route::get('flyers', [CatalogueController::class, 'getFlyers']);
 
 });

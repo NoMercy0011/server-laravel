@@ -293,4 +293,63 @@ class CatalogueController extends Controller
             "carterie" => $catalogueType,
         ]);
     }
+
+    public function getFlyers()
+    {
+        $face = Face::all(); 
+        $carterie_id = Catalogue::where( "code" , "=", "flyers")->first()->id;
+        $catalogueType = CatalogueType::where('catalogue_id', '=', $carterie_id)
+        ->with([ 
+            'catalogue', 'dimensions','matieres.inventaire','imprimantes','particularites'
+        ])->get()->map ( function ($catalogueType) use($face)  {
+            return [   
+                    "id" => $catalogueType->id,
+                    "type" => $catalogueType->type,
+                    "code" => $catalogueType->code,
+                    "catalogue" => [
+                        "id" => $catalogueType->catalogue->id,
+                        "catalogue" => $catalogueType->catalogue->catalogue,
+                        "code" => $catalogueType->catalogue->code,
+                    ],
+                    "dimensions" => $catalogueType->dimensions->map( function ($dimension) {
+                        return [
+                            "id"=> $dimension->id,
+                            "dimension" => $dimension->dimension,
+                            "ratio" => $dimension->ratio,
+                        ];
+                    }),
+                    "matieres" => $catalogueType->matieres->map( function ($matiere) {
+                        return [
+                            "id"=> $matiere->inventaire->id,
+                            "type" => $matiere->inventaire->type,
+                            "details" => $matiere->inventaire->details,
+                            "longueur" => $matiere->inventaire->longueur,
+                            "largeur" => $matiere->inventaire->largeur,
+                            "caracteristiques" => $matiere->inventaire->caracteristiques,
+                            "taille" => $matiere->inventaire->taille,
+                            "rendement" => $matiere->inventaire->rendement,
+                            "par" => $matiere->inventaire->par,
+                            "prix_unitaire" => $matiere->inventaire->prix_unitaire,
+                            "unitee" => $matiere->inventaire->unitee,
+                        ];
+                    }),
+                    "particularites" => $catalogueType->particularites->map( function ($particularite) {
+                        return [
+                            "id"=> $particularite->id,
+                            "particularite" => $particularite->particularite,
+                        ];
+                    }),
+                    "imprimantes" => $catalogueType->imprimantes->map( function ($imprimante) {
+                        return [
+                            "id"=> $imprimante->id,
+                            "imprimante" => $imprimante->imprimante,    
+                        ];  
+                    }),
+                    "faces" => $face,
+            ];
+        });
+        return response()->json([
+            "flyers" => $catalogueType,
+        ]);
+    }
 }
