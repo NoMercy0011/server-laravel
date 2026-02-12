@@ -58,4 +58,7 @@ class CatalogueType extends Model
     public function coutures() {
         return $this->hasMany( CoutureCatalogue::class, 'catalogue_type_id', 'id');
     }
+    public function epaisseurs() {
+        return $this->hasMany( EpaisseurCatalogue::class, 'catalogue_type_id', 'id');
+    }
 }

@@ -103,6 +103,15 @@ class CatalogueController extends Controller
         ]);
     }
 
+    public function createPackaging(){
+        //logique de création de packaging
+
+        return response()->json([
+            "message" => "création de packaging"
+        ]);
+    }
+
+
     public function getCalendar() {
         $face = Face::all(); 
         $calendar_id = Catalogue::where( "code" , "=", "calendar")->first()->id;
@@ -350,6 +359,56 @@ class CatalogueController extends Controller
         });
         return response()->json([
             "flyers" => $catalogueType,
+        ]);
+    }
+
+    public function getGrandFormat()
+    {
+        $face = Face::all(); 
+        $carterie_id = Catalogue::where( "code" , "=", "GF")->first()->id;
+        $catalogueType = CatalogueType::where('catalogue_id', '=', $carterie_id)
+        ->with([ 
+            'catalogue', 'dimensions','matieres.inventaire','imprimantes','particularites', 'finitions', 'epaisseurs'
+        ])->get()->map ( function ($catalogueType) use($face)  {
+            return [   
+                    "id" => $catalogueType->id,
+                    "type" => $catalogueType->type,
+                    "code" => $catalogueType->code,
+                    "catalogue" => [
+                        "id" => $catalogueType->catalogue->id,
+                        "catalogue" => $catalogueType->catalogue->catalogue,
+                        "code" => $catalogueType->catalogue->code,
+                    ],
+                    "dimensions" => $catalogueType->dimensions->map( function ($dimension) {
+                        return [
+                            "id"=> $dimension->id,
+                            "dimension" => $dimension->dimension,
+                            "ratio" => $dimension->ratio,
+                        ];
+                    }),
+                    "epaisseurs" => $catalogueType->epaisseurs->map( function ($epaisseur) {
+                        return [
+                            "id"=> $epaisseur->id,
+                            "epaisseur" => $epaisseur->epaisseur,
+                        ];
+                    }),
+                    "finitions" => $catalogueType->finitions->map( function ($finition) {
+                        return [
+                            "id"=> $finition->id,
+                            "finition" => $finition->finition,
+                        ];
+                    }),
+                    "particularites" => $catalogueType->particularites->map( function ($particularite) {
+                        return [
+                            "id"=> $particularite->id,
+                            "particularite" => $particularite->particularite,
+                        ];
+                    }),
+                    "faces" => $face,
+            ];
+        });
+        return response()->json([
+            "grand_format" => $catalogueType,
         ]);
     }
 }

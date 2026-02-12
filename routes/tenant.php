@@ -41,6 +41,8 @@ Route::middleware([
     Route::post( 'client', [ClientController::class, 'create']);
     Route::post( 'commercial', [CommercialController::class, 'create']);
 
+    Route::post('packaging', [CatalogueController::class, 'createPackaging']);
+
     Route::get( 'client-id', [ClientController::class, 'getClientID']);
     Route::get( 'client', [ClientController::class, 'get']);
     Route::get( 'commercial', [CommercialController::class, 'get']);
@@ -54,5 +56,6 @@ Route::middleware([
     Route::get('chevalet', [CatalogueController::class, 'getChevalet']);
     Route::get('carterie', [CatalogueController::class, 'getCarterie']);
     Route::get('flyers', [CatalogueController::class, 'getFlyers']);
+    Route::get('grand-format', [CatalogueController::class, 'getGrandFormat']);
 
 });
